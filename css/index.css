@@ -98,3 +98,37 @@
     border-radius: 0.5rem;
     cursor: pointer;
 }
+.modalMas{
+    border: 1px solid lightslategray;
+    border-radius: 0.5rem;
+    width: 40rem;
+    height: 15rem;
+    margin-left: 48.5rem;
+}
+.close-button{
+    margin: 1rem;
+    margin-top: 1rem;
+    font-size: 2rem;
+    color: red;
+}
+.modalMas h2{
+    margin-top: 2rem;
+    margin-left: 1rem;
+}
+.modalMas label{
+    margin-left: 1rem;
+}
+#assignmentName{
+    margin-top: 1.5rem;
+}
+#saveAssignment{
+    margin-top: 2rem;
+    margin-left: 32rem;
+    border: none;
+    padding: 5px 10px;
+    background-color: #3291FF;
+    color: white;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}

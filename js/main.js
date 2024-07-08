@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const users = [];
 
-    function UserComponent(user) {
+    function renderUserComponent(user) {
         return `
             <div class="user-card">
                 <div class="header">
@@ -13,20 +13,48 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="userCorreo">${user.email}</div>
                     </div>
                     <div class="numeroAsignaciones">${user.assignments.length}</div>
-                    <div class="btnAsignacion">+</div>
+                    <div class="btnAsignacion" data-user-index="${users.indexOf(user)}">+</div>
                 </div>
                 <div class="asignaciones">
-                    ${user.assignments.map((a, index) => `<button class="asignacion">Asignación ${index + 1}</button>`).join('')}
+                    ${user.assignments.map((a, index) => `<button class="asignacion">Asignación ${index + 1}</button>`) }
                 </div>
             </div>
         `;
     }
 
+    function openModal(userIndex) {
+        const modal = document.createElement('div');
+        modal.classList.add('modal');
+        modal.innerHTML = `
+            <div class="modalMas">
+                <span class="close-button">&times;</span>
+                <h2>Nueva Asignación</h2>
+                <label for="assignmentName">Nombre de la asignación:</label>
+                <input type="text" id="assignmentName">
+                <button id="saveAssignment">Guardar</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelector('.close-button').addEventListener('click', () => {
+            document.body.removeChild(modal);
+        });
+
+        modal.querySelector('#saveAssignment').addEventListener('click', () => {
+            const assignmentName = modal.querySelector('#assignmentName').value;
+            if (assignmentName) {
+                users[userIndex].assignments.push(assignmentName);
+                document.body.removeChild(modal);
+                modal();
+            }
+        });
+    }
+
     function modal() {
         div_root.innerHTML = `
             <div class="btnNuevoUser">Agregar nuevo Usuario</div>
-            ${users.map(user => UserComponent(user))}
-            <div class="register-form">
+            ${users.map(user => renderUserComponent(user))}
+            <div class="register-form" style="display: none;">
                 <h3>Registro</h3>
                 <label for="name">Nombre:</label>
                 <input type="text" id="name">
@@ -48,7 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
             modal();
         });
 
-        
+        document.querySelectorAll('.btnAsignacion').forEach(button => {
+            button.addEventListener('click', () => {
+                let userIndex = button.getAttribute('data-user-index');
+                openModal(userIndex);
+            });
+        });
     }
 
     modal();
